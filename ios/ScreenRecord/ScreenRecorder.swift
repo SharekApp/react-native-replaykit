@@ -35,7 +35,9 @@ import AVKit
             videoInput!.expectsMediaDataInRealTime = true
             assetWriter?.add(videoInput!)
             let recorder = RPScreenRecorder.shared()
-            guard recorder.isAvailable else { return }
+            guard recorder.isAvailable else {
+                print("ReplayKit: recorder not available")
+                return }
             
             recorder.startCapture(handler: { (sample, bufferType, error) in
                 
@@ -43,12 +45,12 @@ import AVKit
                 
                 switch bufferType {
                 case .video:
-                    print("writing sample....");
+                    print("ReplayKit: writing sample....");
 
                     switch self.assetWriter!.status {
                     case .unknown:
                         if self.assetWriter?.startWriting != nil {
-                            print("Starting writing")
+                            print("ReplayKit: Starting writing")
 
                             self.assetWriter!.startWriting()
                             self.assetWriter!.startSession(atSourceTime:  CMSampleBufferGetPresentationTimeStamp(sample))
@@ -56,17 +58,17 @@ import AVKit
                         
                     case .writing:
                         if self.videoInput!.isReadyForMoreMediaData {
-                            print("Writing a sample")
+                            print("ReplayKit: Writing a sample")
                             
                             if  self.videoInput!.append(sample) == false {
-                                print(" we have a problem writing video")
+                                print("ReplayKit: we have a problem writing video")
                             }
                         }
                     default: break
                     }
 
                 default:
-                    print("not a video sample, so ignore");
+                    print("ReplayKit: not a video sample, so ignore");
                 }
                 
                 
