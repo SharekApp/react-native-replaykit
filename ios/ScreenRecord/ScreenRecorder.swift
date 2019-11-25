@@ -45,7 +45,7 @@ import AVKit
                 
                 switch bufferType {
                 case .video:
-                    print("ReplayKit: writing sample....");
+                    //print("ReplayKit: writing sample....");
 
                     switch self.assetWriter!.status {
                     case .unknown:
@@ -58,7 +58,7 @@ import AVKit
                         
                     case .writing:
                         if self.videoInput!.isReadyForMoreMediaData {
-                            print("ReplayKit: Writing a sample")
+                            //print("ReplayKit: Writing a sample")
                             
                             if  self.videoInput!.append(sample) == false {
                                 print("ReplayKit: we have a problem writing video")
@@ -74,7 +74,7 @@ import AVKit
                 
             }) { (error) in
                 recordingHandler(error)
-                //                debugPrint(error)
+                debugPrint(error)
             }
         } else
         {
